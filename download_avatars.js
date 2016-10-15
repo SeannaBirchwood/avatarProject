@@ -13,24 +13,26 @@ var options = {
 
 
 function getRepoContributors(repoOwner, repoName, _callback) {
-//find contributors, which comes into an array
-request.get(options, function(err, data) {
-  var contribUrls = JSON.parse(data.body);
-  for (var i = 0; i < contribUrls.length; i++) {
-    downloadImageByURL(contribUrls[i]["avatar_url"], "avatar_images/" + contribUrls[i]["login"] + ".png");
-  }
-});
+  //find contributors, which comes into an array
+  request.get(options, function(err, data) {
+    var contribUrls = JSON.parse(data.body);
+    for (var i = 0; i < contribUrls.length; i++) {
+      downloadImageByURL(contribUrls[i]["avatar_url"], "avatar_images/" + contribUrls[i]["login"] + ".png");
+    }
+  });
 };
 
 function downloadImageByURL(url, filePath) {
-//got this from stack -- research why it works
-request(url).pipe(fs.createWriteStream(filePath)).on('close', function() {
-  return ""
-});
+  //got this from stack -- research why it works
+  request(url).pipe(fs.createWriteStream(filePath)).on('close', function() {
+    return ""
+  });
 };
 
 //error / debug tool
-getRepoContributors("lighthouse-labs", "laser_shark", (err, result) => {
+getRepoContributors(sourceArgs[0], sourceArgs[1], (err, result) => {
   console.log("Errors:", err);
   console.log("Result:", result);
 });
+
+console.log("Brett is awesome");
